@@ -13,6 +13,7 @@ router.get('/info/:id', (req, res) => {
   res.send(req.params.id);
 });
 
-router.route('/user').get(userController.show_all_user_info);
+router.route('/userInfo').get(userController.show_all_user_info);
+router.route('/user').get(userController.show_all_users);
 
 module.exports = router;
