@@ -16,21 +16,10 @@ module.exports = (sequelize, type) => {
       type: type.STRING,
       allowNull: true
     },
-    password: {
-      type: type.STRING,
-      allowNull: true
-    },
     status: {
       type: type.INTEGER,
       allowNull: false,
       defaultValue: 1
     }
-    // info: {
-    //   type: type.INTEGER,
-    //   references: {
-    //     model: 'infoUser',
-    //     key: 'id'
-    //   }
-    // }
   });
 };
