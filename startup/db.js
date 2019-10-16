@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const config = require('../config');
+const config = require('../config.js');
 
 const UserModel = require('../models/user');
 const InfoUserModel = require('../models/infoUser');
@@ -18,10 +18,10 @@ const InfoUserModel = require('../models/infoUser');
 // };
 
 var dbConfig = {
-  username: 'root',
-  password: 'root1234',
-  database: 's-report',
-  host: 's-report.corcp0oiwosh.ap-southeast-1.rds.amazonaws.com',
+  username: config.USER,
+  password: config.PASSWORD,
+  database: config.DATABASE,
+  host: config.HOST,
   dialect: 'mysql',
   define: {
     charset: 'utf8mb4',
