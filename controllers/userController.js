@@ -8,14 +8,28 @@ const { User, InfoUser } = require('../startup/db');
 const show_all_user_info = async (req, res) => {
   try {
     let infoUsers = await InfoUser.findAll({
-      where: { goal: { [Op.gte]: 2 } }
+      where: { goal2: { [Op.gte]: 2 } }
     });
     res.json(infoUsers);
   } catch (error) {
     logger.error(error.message, error);
-    ErrorHelper.InternalServerError(res);
+    ErrorHelper.InternalServerError(res, null, error);
   }
 };
+
+const find_User = async (req, res) => {
+  try {
+    if(isNaN(req.params.id))
+      ErrorHelper.BadRequest(res, 'ID must be a number.')
+    let user = await User.findOne({ where: { id: req.params.id } });
+    if(!user)
+      ErrorHelper.NotFound(res, "User Not Found.");
+    res.send(user);
+  } catch (error) {
+    logger.error(error, error.message);
+    ErrorHelper.InternalServerError(res, null, error)
+  }
+}
 
 const show_all_users = async (req, res) => {
   try {
@@ -38,5 +52,6 @@ const show_all_users = async (req, res) => {
 
 module.exports = {
   show_all_user_info,
-  show_all_users
+  show_all_users,
+  find_User
 };

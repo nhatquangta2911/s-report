@@ -15,5 +15,6 @@ router.get('/info/:id', (req, res) => {
 
 router.route('/userInfo').get(userController.show_all_user_info);
 router.route('/user').get(userController.show_all_users);
+router.route('/user/:id').get(userController.find_User);
 
 module.exports = router;
