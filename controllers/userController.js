@@ -20,10 +20,10 @@ const show_all_user_info = async (req, res) => {
 const find_User = async (req, res) => {
   try {
     if(isNaN(req.params.id))
-      ErrorHelper.BadRequest(res, 'ID must be a number.')
+      return ErrorHelper.BadRequest(res, 'ID must be a number.')
     let user = await User.findOne({ where: { id: req.params.id } });
     if(!user)
-      ErrorHelper.NotFound(res, "User Not Found.");
+      return ErrorHelper.NotFound(res, "User Not Found.");
     res.send(user);
   } catch (error) {
     logger.error(error, error.message);
