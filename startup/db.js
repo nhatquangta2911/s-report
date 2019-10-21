@@ -6,6 +6,7 @@ const UserModel = require('../models/user');
 const InfoUserModel = require('../models/infoUser');
 const IngredientModel = require('../models/ingredient');
 const TypeQuestionModel = require('../models/typeQuestion');
+const QuestionModel = require('../models/question');
 
 var dbConfig = {
   username: config.USER,
@@ -41,12 +42,38 @@ const User = UserModel(db, Sequelize);
 const InfoUser = InfoUserModel(db, Sequelize);
 const Ingredient = IngredientModel(db, Sequelize);
 const TypeQuestion = TypeQuestionModel(db, Sequelize);
+const Question = QuestionModel(db, Sequelize);
 
-User.hasOne(InfoUser);
-InfoUser.belongsTo(User);
+User.belongsTo(InfoUser);
+InfoUser.hasOne(User);
+
+Question.belongsTo(TypeQuestion);
+TypeQuestion.hasOne(Question);
+
+Question.belongsTo(Ingredient);
+Ingredient.hasOne(Question);
+
+Question.belongsTo(User);
+User.hasOne(Question);
 
 const applyDummy = async () => {
-  //TODO: FAKE INGREDIENT
+  // TODO: FAKE TYPE QUESTIONS
+  let typeQuestion1 = await TypeQuestion.create({
+    name: 'Yes/No'
+  });
+  let typeQuestion2 = await TypeQuestion.create({
+    name: 'Single-choice'
+  });
+  let typeQuestion3 = await TypeQuestion.create({
+    name: 'Multi-choice'
+  });
+  let typeQuestion4 = await TypeQuestion.create({
+    name: 'Dropdown List'
+  });
+  let typeQuestion5 = await TypeQuestion.create({
+    name: 'Text'
+  });
+  //TODO: FAKE INGREDIENTS
   let ingredient1 = await Ingredient.create({
     name: 'Banana',
     cal: 110,
@@ -65,44 +92,6 @@ const applyDummy = async () => {
     sugar: 5.23,
     fat: 0.09
   });
-  //TODO: FAKE TYPE QUESTIONS
-  let typeQuestion1 = await TypeQuestion.create({
-    name: 'Yes/No'
-  });
-  let typeQuestion2 = await TypeQuestion.create({
-    name: 'Single-choice'
-  });
-  let typeQuestion3 = await TypeQuestion.create({
-    name: 'Multi-choice'
-  });
-  let typeQuestion4 = await TypeQuestion.create({
-    name: 'Dropdown List'
-  });
-  let typeQuestion5 = await TypeQuestion.create({
-    name: 'Text'
-  });
-  //TODO: FAKE USERS
-  let user1 = await User.create({
-    email: 'shawn@enclave.vn',
-    phone: '0368080534'
-  });
-  let user2 = await User.create({
-    email: 'ben@enclave.vn',
-    phone: '0776402587'
-  });
-  let user3 = await User.create({
-    email: 'lionel@enclave.vn',
-    phone: '01234445544'
-  });
-  let user4 = await User.create({
-    email: 'arthur@enclave.vn',
-    phone: '01298877772'
-  });
-  let user5 = await User.create({
-    email: 'kendis@enclave.vn',
-    phone: '0904988982'
-  });
-
   //TODO: FAKE USER INFO
   let infoUser1 = await InfoUser.create({
     weight: 57,
@@ -111,8 +100,7 @@ const applyDummy = async () => {
     bodyFat: 2,
     goal: 2,
     activityLevel: 3,
-    dietType: 1,
-    userId: user1.id
+    dietType: 1
   });
   let infoUser2 = await InfoUser.create({
     weight: 88,
@@ -121,8 +109,7 @@ const applyDummy = async () => {
     bodyFat: 3,
     goal: 1,
     activityLevel: 1,
-    dietType: 1,
-    userId: user2.id
+    dietType: 1
   });
   let infoUser3 = await InfoUser.create({
     weight: 48,
@@ -131,8 +118,7 @@ const applyDummy = async () => {
     bodyFat: 2,
     goal: 1,
     activityLevel: 3,
-    dietType: 1,
-    userId: user3.id
+    dietType: 1
   });
   let infoUser4 = await InfoUser.create({
     weight: 68,
@@ -141,8 +127,7 @@ const applyDummy = async () => {
     bodyFat: 2,
     goal: 2,
     activityLevel: 3,
-    dietType: 2,
-    userId: user4.id
+    dietType: 2
   });
   let infoUser5 = await InfoUser.create({
     weight: 108,
@@ -151,8 +136,48 @@ const applyDummy = async () => {
     bodyFat: 3,
     goal: 1,
     activityLevel: 1,
-    dietType: 1,
-    userId: user5.id
+    dietType: 1
+  });
+  //TODO: FAKE USERS
+  let user1 = await User.create({
+    email: 'shawn@enclave.vn',
+    phone: '0368080534',
+    infoUserId: infoUser1.id
+  });
+  let user2 = await User.create({
+    email: 'ben@enclave.vn',
+    phone: '0776402587',
+    infoUserId: infoUser2.id
+  });
+  let user3 = await User.create({
+    email: 'lionel@enclave.vn',
+    phone: '01234445544',
+    infoUserId: infoUser3.id
+  });
+  let user4 = await User.create({
+    email: 'arthur@enclave.vn',
+    phone: '01298877772',
+    infoUserId: infoUser4.id
+  });
+  let user5 = await User.create({
+    email: 'kendis@enclave.vn',
+    phone: '0904988982',
+    infoUserId: infoUser5.id
+  });
+
+  let question1 = await Question.create({
+    typeQuestionId: typeQuestion1.id,
+    ingredientId: ingredient1.id,
+    userId: user1.id,
+    amount: 2,
+    extraInfo: 'Update soon...'
+  });
+  let question2 = await Question.create({
+    typeQuestionId: typeQuestion2.id,
+    ingredientId: ingredient2.id,
+    userId: user2.id,
+    amount: 1,
+    extraInfo: 'Update soon...'
   });
 };
 
@@ -160,5 +185,6 @@ module.exports = {
   User,
   InfoUser,
   Ingredient,
-  TypeQuestion
+  TypeQuestion,
+  Question
 };
