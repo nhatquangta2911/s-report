@@ -42,6 +42,7 @@ User.hasOne(InfoUser);
 InfoUser.belongsTo(User);
 
 const applyDummy = async () => {
+  //TODO: FAKE USERS
   let user1 = await User.create({
     email: 'shawn@enclave.vn',
     phone: '0368080534'
@@ -62,6 +63,8 @@ const applyDummy = async () => {
     email: 'kendis@enclave.vn',
     phone: '0904988982'
   });
+
+  //TODO: FAKE USER INFO
   let infoUser1 = await InfoUser.create({
     weight: 57,
     height: 169,

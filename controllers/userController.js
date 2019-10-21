@@ -13,23 +13,22 @@ const show_all_user_info = async (req, res) => {
     res.json(infoUsers);
   } catch (error) {
     logger.error(error.message, error);
-    ErrorHelper.InternalServerError(res, null, error);
+    ErrorHelper.InternalServerError(res, error);
   }
 };
 
 const find_User = async (req, res) => {
   try {
-    if(isNaN(req.params.id))
-      return ErrorHelper.BadRequest(res, 'ID must be a number.')
+    if (isNaN(req.params.id))
+      return ErrorHelper.BadRequest(res, 'ID must be a number.');
     let user = await User.findOne({ where: { id: req.params.id } });
-    if(!user)
-      return ErrorHelper.NotFound(res, "User Not Found.");
+    if (!user) return ErrorHelper.NotFound(res, 'User Not Found.');
     res.send(user);
   } catch (error) {
     logger.error(error, error.message);
-    ErrorHelper.InternalServerError(res, null, error)
+    ErrorHelper.InternalServerError(res, error);
   }
-}
+};
 
 const show_all_users = async (req, res) => {
   try {
