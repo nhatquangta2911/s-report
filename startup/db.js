@@ -4,6 +4,7 @@ const { logger } = require('../middlewares/logging');
 
 const UserModel = require('../models/user');
 const InfoUserModel = require('../models/infoUser');
+const IngredientModel = require('../models/ingredient');
 
 var dbConfig = {
   username: config.USER,
@@ -37,11 +38,31 @@ db.sync({
 
 const User = UserModel(db, Sequelize);
 const InfoUser = InfoUserModel(db, Sequelize);
+const Ingredient = IngredientModel(db, Sequelize);
 
 User.hasOne(InfoUser);
 InfoUser.belongsTo(User);
 
 const applyDummy = async () => {
+  //TODO: FAKE INGREDIENT
+  let ingredient1 = await Ingredient.create({
+    name: 'Banana',
+    cal: 110,
+    carbs: 27,
+    protein: 1.37,
+    fiber: 13.1,
+    sugar: 3.23,
+    fat: 0.19
+  });
+  let ingredient2 = await Ingredient.create({
+    name: 'Apple',
+    cal: 145,
+    carbs: 17.6,
+    protein: 0.97,
+    fiber: 23.1,
+    sugar: 5.23,
+    fat: 0.09
+  });
   //TODO: FAKE USERS
   let user1 = await User.create({
     email: 'shawn@enclave.vn',
@@ -119,5 +140,6 @@ const applyDummy = async () => {
 
 module.exports = {
   User,
-  InfoUser
+  InfoUser,
+  Ingredient
 };

@@ -6,7 +6,9 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const home = require('../routes/home');
+const users = require('../routes/users');
 const error = require('../middlewares/error');
+const ingredients = require('../routes/ingredients');
 
 module.exports = app => {
   app.use(cors({ origin: '*', credentials: true }));
@@ -27,6 +29,8 @@ module.exports = app => {
   });
 
   app.use('/', home);
+  app.use('/api/users', users);
+  app.use('/api/ingredients', ingredients);
 
   app.use(error);
 };
