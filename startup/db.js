@@ -5,6 +5,7 @@ const { logger } = require('../middlewares/logging');
 const UserModel = require('../models/user');
 const InfoUserModel = require('../models/infoUser');
 const IngredientModel = require('../models/ingredient');
+const TypeQuestionModel = require('../models/typeQuestion');
 
 var dbConfig = {
   username: config.USER,
@@ -39,6 +40,7 @@ db.sync({
 const User = UserModel(db, Sequelize);
 const InfoUser = InfoUserModel(db, Sequelize);
 const Ingredient = IngredientModel(db, Sequelize);
+const TypeQuestion = TypeQuestionModel(db, Sequelize);
 
 User.hasOne(InfoUser);
 InfoUser.belongsTo(User);
@@ -62,6 +64,22 @@ const applyDummy = async () => {
     fiber: 23.1,
     sugar: 5.23,
     fat: 0.09
+  });
+  //TODO: FAKE TYPE QUESTIONS
+  let typeQuestion1 = await TypeQuestion.create({
+    name: 'Yes/No'
+  });
+  let typeQuestion2 = await TypeQuestion.create({
+    name: 'Single-choice'
+  });
+  let typeQuestion3 = await TypeQuestion.create({
+    name: 'Multi-choice'
+  });
+  let typeQuestion4 = await TypeQuestion.create({
+    name: 'Dropdown List'
+  });
+  let typeQuestion5 = await TypeQuestion.create({
+    name: 'Text'
   });
   //TODO: FAKE USERS
   let user1 = await User.create({
@@ -141,5 +159,6 @@ const applyDummy = async () => {
 module.exports = {
   User,
   InfoUser,
-  Ingredient
+  Ingredient,
+  TypeQuestion
 };

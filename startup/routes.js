@@ -9,6 +9,7 @@ const home = require('../routes/home');
 const users = require('../routes/users');
 const error = require('../middlewares/error');
 const ingredients = require('../routes/ingredients');
+const typeQuestions = require('../routes/typeQuestions');
 
 module.exports = app => {
   app.use(cors({ origin: '*', credentials: true }));
@@ -30,7 +31,7 @@ module.exports = app => {
 
   app.use('/', home);
   app.use('/api/users', users);
-  app.use('/api/ingredients', ingredients);
+  app.use('/api/typeQuestions', typeQuestions);
 
   app.use(error);
 };
