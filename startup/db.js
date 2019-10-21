@@ -7,6 +7,7 @@ const InfoUserModel = require('../models/infoUser');
 const IngredientModel = require('../models/ingredient');
 const TypeQuestionModel = require('../models/typeQuestion');
 const QuestionModel = require('../models/question');
+const RoleModel = require('../models/role');
 
 var dbConfig = {
   username: config.USER,
@@ -39,10 +40,15 @@ db.sync({
 });
 
 const User = UserModel(db, Sequelize);
+const Role = RoleModel(db, Sequelize);
 const InfoUser = InfoUserModel(db, Sequelize);
 const Ingredient = IngredientModel(db, Sequelize);
 const TypeQuestion = TypeQuestionModel(db, Sequelize);
 const Question = QuestionModel(db, Sequelize);
+const UserRole = db.define('user_role', {}, { timestamps: false });
+
+User.belongsToMany(Role, { through: UserRole });
+Role.belongsToMany(User, { through: UserRole });
 
 User.belongsTo(InfoUser);
 InfoUser.hasOne(User);
@@ -57,6 +63,13 @@ Question.belongsTo(User);
 User.hasOne(Question);
 
 const applyDummy = async () => {
+  //TODO: FAKE ROLES
+  let role1 = await Role.create({
+    name: 'admin'
+  });
+  let role2 = await Role.create({
+    name: 'user'
+  });
   // TODO: FAKE TYPE QUESTIONS
   let typeQuestion1 = await TypeQuestion.create({
     name: 'Yes/No'
@@ -144,6 +157,7 @@ const applyDummy = async () => {
     phone: '0368080534',
     infoUserId: infoUser1.id
   });
+  await user1.addRoles([role1]);
   let user2 = await User.create({
     email: 'ben@enclave.vn',
     phone: '0776402587',
@@ -159,6 +173,7 @@ const applyDummy = async () => {
     phone: '01298877772',
     infoUserId: infoUser4.id
   });
+  await user4.addRoles([role1]);
   let user5 = await User.create({
     email: 'kendis@enclave.vn',
     phone: '0904988982',
@@ -186,5 +201,6 @@ module.exports = {
   InfoUser,
   Ingredient,
   TypeQuestion,
-  Question
+  Question,
+  Role
 };
