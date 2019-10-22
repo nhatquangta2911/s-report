@@ -8,6 +8,11 @@ const IngredientModel = require('../models/ingredient');
 const TypeQuestionModel = require('../models/typeQuestion');
 const QuestionModel = require('../models/question');
 const RoleModel = require('../models/role');
+const ExpiredTokenModel = require('../models/expiredToken');
+const positiveLevelModel = require('../models/positiveLevel');
+const answerModel = require('../models/answer');
+const postModel = require('../models/post');
+const commentModel = require('../models/comment');
 
 var dbConfig = {
   username: config.USER,
@@ -46,6 +51,12 @@ const Ingredient = IngredientModel(db, Sequelize);
 const TypeQuestion = TypeQuestionModel(db, Sequelize);
 const Question = QuestionModel(db, Sequelize);
 const UserRole = db.define('user_role', {}, { timestamps: false });
+const ExpiredToken = ExpiredTokenModel(db, Sequelize);
+const PositiveLevel = positiveLevelModel(db, Sequelize);
+const Answer = answerModel(db, Sequelize);
+const UserAnswers = db.define('user_answers', {}, { timestamps: false });
+const Post = postModel(db, Sequelize);
+const Comment = commentModel(db, Sequelize);
 
 User.belongsToMany(Role, { through: UserRole });
 Role.belongsToMany(User, { through: UserRole });
@@ -60,9 +71,47 @@ Question.belongsTo(Ingredient);
 Ingredient.hasOne(Question);
 
 Question.belongsTo(User);
-User.hasOne(Question);
+User.hasMany(Question);
+
+Answer.belongsTo(PositiveLevel);
+PositiveLevel.hasOne(Answer);
+
+Answer.belongsToMany(User, { through: UserAnswers });
+User.belongsToMany(Answer, { through: UserAnswers });
+
+Post.belongsTo(User);
+User.hasMany(Post);
+
+Comment.belongsTo(User);
+User.hasMany(Comment);
+
+Comment.belongsTo(Post);
+Post.hasMany(Comment);
 
 const applyDummy = async () => {
+  //TODO: FAKE POSITIVE LEVELS
+  let positive = await PositiveLevel.create({
+    level: 1,
+    name: 'positive'
+  });
+  let negative = await PositiveLevel.create({
+    level: 2,
+    name: 'negative'
+  });
+  //TODO: FAKE ANSWERS
+  let answer1 = await Answer.create({
+    answerContent: 'stuff',
+    positiveLevelId: negative.id
+  });
+  let answer2 = await Answer.create({
+    answerContent: 'anything',
+    positiveLevelId: positive.id
+  });
+  //TODO: FAKE TOKENS
+  let expiredToken = await ExpiredToken.create({
+    token:
+      'i983u289329rh982f8923h9f8h2398ewkjhfiueiunsdkjncjsdkncjksdhfhwerh23y4892y3498y2384y23'
+  });
   //TODO: FAKE ROLES
   let role1 = await Role.create({
     name: 'admin'
@@ -158,6 +207,8 @@ const applyDummy = async () => {
     infoUserId: infoUser1.id
   });
   await user1.addRoles([role1]);
+  await user1.addAnswers([answer2]);
+  await user1.addAnswers([answer1]);
   let user2 = await User.create({
     email: 'ben@enclave.vn',
     phone: '0776402587',
@@ -179,7 +230,34 @@ const applyDummy = async () => {
     phone: '0904988982',
     infoUserId: infoUser5.id
   });
-
+  //TODO: FAKE POSTS
+  let post1 = await Post.create({
+    header: 'Bored to death',
+    content: 'How to get over all of it',
+    userId: user2.id
+  });
+  let post2 = await Post.create({
+    header: 'How to be more proactive',
+    content: 'Not brave enough? This post come to rescue',
+    userId: user5.id
+  });
+  //TODO: FAKE COMMENTS
+  let comment1 = await Comment.create({
+    content: 'Interesting',
+    userId: user4.id,
+    postId: post1.id
+  });
+  let comment2 = await Comment.create({
+    content: 'Tedious',
+    userId: user3.id,
+    postId: post2.id
+  });
+  let comment3 = await Comment.create({
+    content: 'Show off!',
+    userId: user1.id,
+    postId: post2.id
+  });
+  //TODO: FAKE QUESTIONS
   let question1 = await Question.create({
     typeQuestionId: typeQuestion1.id,
     ingredientId: ingredient1.id,
