@@ -280,5 +280,11 @@ module.exports = {
   Ingredient,
   TypeQuestion,
   Question,
-  Role
+  Role,
+  Answer,
+  ExpiredToken,
+  Post,
+  Comment,
+  PositiveLevel,
+  UserAnswers
 };

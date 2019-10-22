@@ -3,7 +3,7 @@ const { logger } = require('../middlewares/logging');
 const Op = Sequelize.Op;
 const ErrorHelper = require('../helpers/ErrorHelper');
 const config = require('../config');
-const { User, InfoUser } = require('../startup/db');
+const { User, InfoUser, Role } = require('../startup/db');
 
 const show_all_user_info = async (req, res) => {
   try {
@@ -19,8 +19,6 @@ const show_all_user_info = async (req, res) => {
 
 const find_User = async (req, res) => {
   try {
-    if (isNaN(req.params.id))
-      return ErrorHelper.BadRequest(res, 'ID must be a number.');
     let user = await User.findOne({ where: { id: req.params.id } });
     if (!user) return ErrorHelper.NotFound(res, 'User Not Found.');
     res.send(user);
@@ -36,8 +34,15 @@ const show_all_users = async (req, res) => {
       // include: [InfoUser],
       include: [
         {
-          attributes: ['id', 'weight', 'height', 'gender'],
-          model: InfoUser
+          model: InfoUser,
+          attributes: ['id', 'weight', 'height', 'gender']
+        },
+        {
+          model: Role,
+          attributes: ['name'],
+          through: {
+            attributes: []
+          }
         }
       ],
       limit: 4
