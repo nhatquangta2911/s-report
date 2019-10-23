@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
 const home = require('../routes/home');
 const users = require('../routes/users');
 const error = require('../middlewares/error');
@@ -13,6 +14,7 @@ const typeQuestions = require('../routes/typeQuestions');
 const questions = require('../routes/questions');
 
 module.exports = app => {
+  app.use(fileUpload({ createParentPath: true }));
   app.use(cors({ origin: '*', credentials: true }));
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());

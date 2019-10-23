@@ -1,11 +1,10 @@
 const AWS = require('aws-sdk');
 const config = require('../config');
-const Busboy = require('busboy');
 const ErrorHelper = require('../helpers/ErrorHelper');
 const { logger } = require('../middlewares/logging');
 
 module.exports = {
-  upload: (file, callback) => {
+  upload: (res, file, callback) => {
     let s3bucket = new AWS.S3({
       accessKeyId: config.S3_ACCESS_KEY_ID,
       secretAccessKey: config.S3_SECRET_ACCESS_KEY
@@ -17,10 +16,11 @@ module.exports = {
     };
     s3bucket.upload(params, (error, data) => {
       if (error) {
-        logger.error(error);
+        ErrorHelper.InternalServerError(res, error);
+      } else {
+        logger.error(data);
+        callback(data && data.Location);
       }
-      logger.error(data);
-      callback(data.Location);
     });
   }
 };
