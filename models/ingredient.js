@@ -9,6 +9,12 @@ module.exports = (sequelize, type) => {
       type: type.STRING,
       allowNull: true
     },
+    image: {
+      type: type.STRING,
+      allowNull: false,
+      defaultValue:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5HDIfLK4EKY0Hfm7FT8YHQ99cezfhfAa2UWnfo933n18TNyfGnA'
+    },
     cal: {
       type: type.FLOAT,
       allowNull: true

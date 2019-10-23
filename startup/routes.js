@@ -36,6 +36,7 @@ module.exports = app => {
   app.use('/api/users', users);
   app.use('/api/typeQuestions', typeQuestions);
   app.use('/api/questions', questions);
+  app.use('/api/ingredients', ingredients);
 
   app.use(error);
 };

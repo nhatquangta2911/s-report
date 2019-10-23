@@ -12,14 +12,15 @@ module.exports = {
     var params = {
       Bucket: 's-report',
       Key: Date.now() + '' + Math.floor(Math.random() * 100000 + 1) + file.name,
-      Body: file.data
+      Body: file.data,
+      ContentType: file.mime
     };
     s3bucket.upload(params, (error, data) => {
       if (error) {
         ErrorHelper.InternalServerError(res, error);
       } else {
         logger.error(data);
-        callback(data && data.Location);
+        callback(data.Location);
       }
     });
   }
