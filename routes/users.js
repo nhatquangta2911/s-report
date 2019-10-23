@@ -12,5 +12,6 @@ router.post('/login', authController.login);
 router.post('/logout', authController.logout);
 
 router.get('/special', auth(['admin']), (req, res) => res.json('Works!'));
+router.post('/upload', authController.demoUpload);
 
 module.exports = router;

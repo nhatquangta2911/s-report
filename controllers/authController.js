@@ -1,8 +1,10 @@
 const { User, Role, ExpiredToken } = require('../startup/db');
 const ErrorHelper = require('../helpers/ErrorHelper');
 const jwt = require('jsonwebtoken');
+const Busboy = require('busboy');
 const config = require('../config');
 const { logger } = require('../middlewares/logging');
+const { upload } = require('../helpers/UploadToS3Helper');
 
 const login = async (req, res) => {
   try {
@@ -60,7 +62,29 @@ const logout = async (req, res) => {
   }
 };
 
+const demoUpload = async (req, res) => {
+  try {
+    const busboy = new Busboy({
+      headers: req.headers
+    });
+
+    const file = req.files && req.files.file;
+
+    busboy.on('finish', async () => {
+      if (file && file.size < 5242880) {
+        upload(file, async data => {
+          res.json(data);
+        });
+      }
+    });
+    req.pipe(busboy);
+  } catch (error) {
+    logger.error(error, error.message);
+  }
+};
+
 module.exports = {
   login,
-  logout
+  logout,
+  demoUpload
 };
