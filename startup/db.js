@@ -162,6 +162,24 @@ const applyDummy = async () => {
     sugar: 5.23,
     fat: 0.09
   });
+  let ingredient3 = await Ingredient.create({
+    name: 'Avocado',
+    cal: 145,
+    carbs: 17.6,
+    protein: 0.97,
+    fiber: 23.1,
+    sugar: 5.23,
+    fat: 0.09
+  });
+  let ingredient4 = await Ingredient.create({
+    name: 'Eggs',
+    cal: 145,
+    carbs: 17.6,
+    protein: 0.97,
+    fiber: 23.1,
+    sugar: 5.23,
+    fat: 0.09
+  });
   //TODO: FAKE USER INFO
   let infoUser1 = await InfoUser.create({
     weight: 57,
@@ -277,7 +295,21 @@ const applyDummy = async () => {
     typeQuestionId: typeQuestion2.id,
     ingredientId: ingredient2.id,
     userId: user2.id,
-    amount: 1,
+    amount: 2,
+    extraInfo: 'Update soon...'
+  });
+  let question3 = await Question.create({
+    typeQuestionId: typeQuestion3.id,
+    ingredientId: ingredient3.id,
+    userId: user3.id,
+    amount: 3,
+    extraInfo: 'Update soon...'
+  });
+  let question4 = await Question.create({
+    typeQuestionId: typeQuestion4.id,
+    ingredientId: ingredient4.id,
+    userId: user4.id,
+    amount: 2,
     extraInfo: 'Update soon...'
   });
 };
