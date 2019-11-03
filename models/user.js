@@ -7,12 +7,16 @@ module.exports = (sequelize, type) => {
     },
     email: {
       type: type.STRING,
-      allowNull: false,
+      allowNull: true,
       validate: {
         isEmail: true
       }
     },
     phone: {
+      type: type.STRING,
+      allowNull: true
+    },
+    picture: {
       type: type.STRING,
       allowNull: true
     },

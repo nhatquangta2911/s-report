@@ -8,10 +8,10 @@ const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const home = require('../routes/home');
 const users = require('../routes/users');
-const error = require('../middlewares/error');
 const ingredients = require('../routes/ingredients');
 const typeQuestions = require('../routes/typeQuestions');
 const questions = require('../routes/questions');
+const error = require('../middlewares/error');
 
 module.exports = app => {
   app.use(fileUpload({ createParentPath: true }));

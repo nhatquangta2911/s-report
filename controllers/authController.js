@@ -6,6 +6,25 @@ const config = require('../config');
 const { logger } = require('../middlewares/logging');
 const { upload } = require('../helpers/UploadToS3Helper');
 
+const register = async (req, res) => {
+  try {
+    let isExist = await User.findOne({
+      where: {
+        email: req.body.email
+      }
+    });
+    if(isExist) {
+      res.status(201).json({id: isExist.id}); 
+    } else {
+      let user = await User.create(req.body);
+      res.json(user);
+    }
+  } catch (error) {
+    logger.error(error, error.message);
+    ErrorHelper.InternalServerError(res, error);
+  }
+}
+
 const login = async (req, res) => {
   try {
     let user = await User.findOne({
@@ -24,7 +43,7 @@ const login = async (req, res) => {
     });
     if (!user) user = await User.create(req.body);
     const token = jwt.sign(user.toJSON(), config.TOKEN_SECRET_KEY, {
-      expiresIn: config.TOKEN_LIFE
+      expiresIn: 500
     });
     const refreshToken = jwt.sign(
       user.toJSON(),
@@ -83,8 +102,11 @@ const demoUpload = async (req, res) => {
   }
 };
 
+
+
 module.exports = {
   login,
   logout,
-  demoUpload
+  demoUpload,
+  register
 };

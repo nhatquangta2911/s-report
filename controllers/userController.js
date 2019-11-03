@@ -8,7 +8,7 @@ const { User, InfoUser, Role } = require('../startup/db');
 const show_all_user_info = async (req, res) => {
   try {
     let infoUsers = await InfoUser.findAll({
-      where: { goal2: { [Op.gte]: 2 } }
+      where: { goal: { [Op.gte]: 2 } }
     });
     res.json(infoUsers);
   } catch (error) {
@@ -19,7 +19,7 @@ const show_all_user_info = async (req, res) => {
 
 const find_User = async (req, res) => {
   try {
-    let user = await User.findOne({ where: { id: req.params.id } });
+    let user = await User.findOne({ where: { id: req.params.id }, include: [InfoUser] });
     if (!user) return ErrorHelper.NotFound(res, 'User Not Found.');
     res.send(user);
   } catch (error) {
@@ -45,7 +45,6 @@ const show_all_users = async (req, res) => {
           }
         }
       ],
-      limit: 4
     });
     res.json(users);
   } catch (error) {
