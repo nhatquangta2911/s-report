@@ -3,4 +3,6 @@ const router = express.Router();
 
 const answerController = require('../controllers/answerController');
 
-router.get('/:id', answerController.show_my_answers)
+router.get('/:id', answerController.show_my_answers);
+
+module.exports = router;
