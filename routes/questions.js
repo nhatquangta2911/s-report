@@ -3,6 +3,6 @@ const router = express.Router();
 
 const questionController = require('../controllers/questionController');
 
-router.route('/').get(questionController.show_all_questions);
+router.get('/:id', questionController.show_my_questions);
 
 module.exports = router;
