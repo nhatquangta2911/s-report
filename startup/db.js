@@ -58,6 +58,11 @@ const QuestionIngredients = db.define(
   {},
   { timestamps: false }
 );
+const AnswerIngredients = db.define(
+  "answer_ingredients",
+  {},
+  { timestamps: false }
+);
 
 const Post = postModel(db, Sequelize);
 const Comment = commentModel(db, Sequelize);
@@ -80,7 +85,10 @@ User.hasMany(Question);
 Answer.belongsTo(PositiveLevel);
 PositiveLevel.hasOne(Answer);
 
-Answer.hasMany(Ingredient);
+// Answer.hasMany(Ingredient);
+// Ingredient.belongsTo(Answer);
+Answer.belongsToMany(Ingredient, { through: AnswerIngredients });
+Ingredient.belongsToMany(Answer, { through: AnswerIngredients });
 
 Answer.belongsToMany(User, { through: UserAnswers });
 User.belongsToMany(Answer, { through: UserAnswers });
