@@ -8,11 +8,13 @@ const { Question, Ingredient, TypeQuestion } = require('../startup/db');
 const show_my_questions = async (req, res) => {
   try {
     let questions = await Question.findAll({
-      include: [Ingredient, TypeQuestion],
+      include: [TypeQuestion, { model: Ingredient, through: { attributes: []} }],
       where: {
         userId: req.params.id
       }
     });
+    if(questions.length === 0)
+      ErrorHelper.BadRequest(res, 'User Not Found.');
     res.json(questions);
   } catch (error) {
     logger.error(error.message, error);

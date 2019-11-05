@@ -15,4 +15,6 @@ router.post('/register', authController.register);
 router.get('/special', auth(['admin']), (req, res) => res.json('Works!'));
 router.post('/upload', authController.demoUpload);
 
+router.post('/submit', userController.answer_question);
+
 module.exports = router;

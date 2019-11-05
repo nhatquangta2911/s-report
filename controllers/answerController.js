@@ -1,18 +1,26 @@
-const Sequelize = require('sequelize');
-const { logger } = require('../middlewares/logging');
+const Sequelize = require("sequelize");
+const { logger } = require("../middlewares/logging");
 const Op = Sequelize.Op;
-const ErrorHelper = require('../helpers/ErrorHelper');
-const config = require('../config');
-const { Answer, Ingredient } = require('../startup/db');
+const ErrorHelper = require("../helpers/ErrorHelper");
+const config = require("../config");
+const { Answer, User, Ingredient } = require("../startup/db");
 
 const show_my_answers = async (req, res) => {
   try {
     let answers = await Answer.findAll({
-    //   include: [Ingredient, TypeQuestion],
-      where: {
-        userId: req.params.id
-      }
+      include: [
+        {
+          model: User,
+          through: {
+            attributes: []
+          }
+        },
+        {
+          model: Ingredient
+        }
+      ]
     });
+    if (answers.length === 0) ErrorHelper.BadRequest(res, "User Not Found.");
     res.json(answers);
   } catch (error) {
     logger.error(error.message, error);

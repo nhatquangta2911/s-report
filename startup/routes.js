@@ -38,7 +38,7 @@ module.exports = app => {
   app.use('/api/typeQuestions', typeQuestions);
   app.use('/api/questions', questions);
   app.use('/api/ingredients', ingredients);
-  app.use('/api/users', answers)
+  app.use('/api/answers', answers)
 
   app.use(error);
 };
