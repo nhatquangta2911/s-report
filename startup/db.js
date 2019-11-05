@@ -305,14 +305,14 @@ const applyDummy = async () => {
   question1.addIngredients([ingredient4]);
   let question2 = await Question.create({
     typeQuestionId: typeQuestion2.id,
-    userId: user2.id,
+    userId: user1.id,
     amount: 2,
     extraInfo: "Update soon..."
   });
   question2.addIngredients([ingredient1, ingredient2, ingredient4]);
   let question3 = await Question.create({
     typeQuestionId: typeQuestion3.id,
-    userId: user3.id,
+    userId: user1.id,
     amount: 3,
     extraInfo: "Update soon..."
   });
@@ -324,7 +324,7 @@ const applyDummy = async () => {
   ]);
   let question4 = await Question.create({
     typeQuestionId: typeQuestion4.id,
-    userId: user4.id,
+    userId: user1.id,
     amount: 2,
     extraInfo: "Update soon..."
   });
