@@ -1,10 +1,10 @@
-const { User, Role, ExpiredToken } = require('../startup/db');
-const ErrorHelper = require('../helpers/ErrorHelper');
-const jwt = require('jsonwebtoken');
-const fileUpload = require('express-fileupload');
-const config = require('../config');
-const { logger } = require('../middlewares/logging');
-const { upload } = require('../helpers/UploadToS3Helper');
+const { User, Role, ExpiredToken, InfoUser } = require("../startup/db");
+const ErrorHelper = require("../helpers/ErrorHelper");
+const jwt = require("jsonwebtoken");
+const fileUpload = require("express-fileupload");
+const config = require("../config");
+const { logger } = require("../middlewares/logging");
+const { upload } = require("../helpers/UploadToS3Helper");
 
 const register = async (req, res) => {
   try {
@@ -13,8 +13,8 @@ const register = async (req, res) => {
         email: req.body.email
       }
     });
-    if(isExist) {
-      res.status(201).json({id: isExist.id}); 
+    if (isExist) {
+      res.status(201).json({ id: isExist.id });
     } else {
       let user = await User.create(req.body);
       res.json(user);
@@ -23,7 +23,38 @@ const register = async (req, res) => {
     logger.error(error, error.message);
     ErrorHelper.InternalServerError(res, error);
   }
-}
+};
+
+const register_info = async (req, res) => {
+  try {
+    let user = await User.findOne({
+      where: {
+        id: req.params.id
+      }
+    });
+    if (!user) ErrorHelper.BadRequest(res, "User Not Found.");
+    const infoUser = await InfoUser.create(req.body);
+    const result = await User.update(
+      {
+        infoUserId: infoUser.id
+      },
+      {
+        where: {
+          id: req.params.id
+        }
+      }
+    );
+    user = await User.findOne({
+      where: {
+        id: req.params.id
+      }
+    });
+    res.json(user);
+  } catch (error) {
+    logger.error(error, error.message);
+    ErrorHelper.InternalServerError(res, error);
+  }
+};
 
 const login = async (req, res) => {
   try {
@@ -34,7 +65,7 @@ const login = async (req, res) => {
       include: [
         {
           model: Role,
-          attributes: ['name'],
+          attributes: ["name"],
           through: {
             attributes: []
           }
@@ -85,14 +116,14 @@ const demoUpload = async (req, res) => {
   try {
     const file = req.files.file;
     if (!file) {
-      ErrorHelper.BadRequest(res, 'No File Uploaded.');
+      ErrorHelper.BadRequest(res, "No File Uploaded.");
     } else {
       if (file.size < 5 * 1024 * 1024) {
         upload(res, file, async data => res.json(data));
       } else {
         ErrorHelper.BadRequest(
           res,
-          'BIG FILE ERROR: Choose file which is less than 5MB'
+          "BIG FILE ERROR: Choose file which is less than 5MB"
         );
       }
     }
@@ -102,11 +133,10 @@ const demoUpload = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
   login,
   logout,
   demoUpload,
-  register
+  register,
+  register_info
 };

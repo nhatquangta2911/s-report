@@ -37,8 +37,7 @@ const show_all_users = async (req, res) => {
       // include: [InfoUser],
       include: [
         {
-          model: InfoUser,
-          attributes: ["id", "weight", "height", "gender"]
+          model: InfoUser
         },
         {
           model: Role,
