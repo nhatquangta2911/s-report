@@ -102,7 +102,7 @@ User.hasMany(Comment);
 Comment.belongsTo(Post);
 Post.hasMany(Comment);
 
-const beDummyData = true;
+const beDummyData = false;
 db.sync({
   force: beDummyData
 }).then(() => {
@@ -310,21 +310,21 @@ const applyDummy = async () => {
     amount: 2,
     extraInfo: "Update soon..."
   });
-  question1.addIngredients([ingredient4]);
+  await question1.addIngredients([ingredient4]);
   let question2 = await Question.create({
     typeQuestionId: typeQuestion2.id,
     userId: user1.id,
     amount: 2,
     extraInfo: "Update soon..."
   });
-  question2.addIngredients([ingredient1, ingredient2, ingredient4]);
+  await question2.addIngredients([ingredient1, ingredient2, ingredient4]);
   let question3 = await Question.create({
     typeQuestionId: typeQuestion3.id,
     userId: user1.id,
     amount: 3,
     extraInfo: "Update soon..."
   });
-  question3.addIngredients([
+  await question3.addIngredients([
     ingredient1,
     ingredient2,
     ingredient3,
@@ -336,7 +336,7 @@ const applyDummy = async () => {
     amount: 2,
     extraInfo: "Update soon..."
   });
-  question4.addIngredients([ingredient3, ingredient2]);
+  await question4.addIngredients([ingredient3, ingredient2]);
 };
 
 module.exports = {

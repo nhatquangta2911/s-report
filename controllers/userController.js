@@ -65,7 +65,7 @@ const answer_question = async (req, res) => {
       positiveId: req.body.positiveId
     });
     if (!req.body.ingredients || req.body.ingredients.length === 0)
-      ErrorHelper.BadRequest(res, "Answer Has No Content.");
+      ErrorHelper.BadRequest(res, "Answer Has No Ingredients.");
     await answer.addIngredients(req.body.ingredients);
     await user.addAnswers([answer]);
     res.json(answer);
