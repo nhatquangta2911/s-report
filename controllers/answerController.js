@@ -8,6 +8,11 @@ const { Answer, User, Ingredient, Question } = require("../startup/db");
 const show_my_answers = async (req, res) => {
   try {
     let answers = await Answer.findAll({
+      where: {
+        answerTime: {
+          [Op.startsWith]: req.params.date
+        }
+      },
       include: [
         {
           model: User,
@@ -21,11 +26,6 @@ const show_my_answers = async (req, res) => {
         Ingredient
       ]
     });
-    if (answers.length === 0)
-      ErrorHelper.BadRequest(
-        res,
-        "User Not Found or User Did Not Answer Any Questions."
-      );
     res.json(answers);
   } catch (error) {
     logger.error(error.message, error);

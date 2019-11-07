@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const answerController = require('../controllers/answerController');
+const answerController = require("../controllers/answerController");
 
-router.get('/:id', answerController.show_my_answers);
+router.get("/:id/:date", answerController.show_my_answers);
 
 module.exports = router;
