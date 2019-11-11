@@ -6,11 +6,16 @@ const config = require("../config");
 const { Answer, User, Ingredient, Question } = require("../startup/db");
 
 const show_my_answers = async (req, res) => {
+  // const today = new Date();
+  // let dates = new Array(3);
+  // for (let i = 0; i < 3; i++) {
+  //   dates[i] = new Date(today.getTime() + i * 60 * 60 * 24 * 1000);
+  // }
   try {
     let answers = await Answer.findAll({
       where: {
         answerTime: {
-          [Op.startsWith]: req.params.date
+          [Op.substring]: req.params.date
         }
       },
       include: [
@@ -26,7 +31,9 @@ const show_my_answers = async (req, res) => {
         Ingredient
       ]
     });
-    res.json(answers);
+    res.json({
+      answers
+    });
   } catch (error) {
     logger.error(error.message, error);
     ErrorHelper.InternalServerError(res, error);
