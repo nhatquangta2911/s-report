@@ -13,6 +13,7 @@ const positiveLevelModel = require("../models/positiveLevel");
 const answerModel = require("../models/answer");
 const postModel = require("../models/post");
 const commentModel = require("../models/comment");
+const doctorModel = require("../models/doctor");
 
 var dbConfig = {
   username: config.USER,
@@ -45,6 +46,7 @@ db.authenticate()
 const User = UserModel(db, Sequelize);
 const Role = RoleModel(db, Sequelize);
 const InfoUser = InfoUserModel(db, Sequelize);
+const Doctor = doctorModel(db, Sequelize);
 const Ingredient = IngredientModel(db, Sequelize);
 const TypeQuestion = TypeQuestionModel(db, Sequelize);
 const Question = QuestionModel(db, Sequelize);
@@ -72,6 +74,9 @@ Role.belongsToMany(User, { through: UserRole });
 
 User.belongsTo(InfoUser);
 InfoUser.hasOne(User);
+
+User.belongsTo(Doctor);
+Doctor.hasOne(User);
 
 Question.belongsTo(TypeQuestion);
 TypeQuestion.hasOne(Question);
@@ -250,7 +255,8 @@ const applyDummy = async () => {
   let user1 = await User.create({
     email: "shawn@enclave.vn",
     phone: "0368080534",
-    infoUserId: infoUser1.id
+    infoUserId: infoUser1.id,
+    doctorId: 2
   });
   await user1.addRoles([role1]);
   await user1.addAnswers([answer2]);
@@ -258,6 +264,7 @@ const applyDummy = async () => {
   let user2 = await User.create({
     email: "ben@enclave.vn",
     phone: "0776402587",
+    doctorId: 1,
     infoUserId: infoUser2.id
   });
   let user3 = await User.create({
@@ -268,6 +275,7 @@ const applyDummy = async () => {
   let user4 = await User.create({
     email: "arthur@enclave.vn",
     phone: "01298877772",
+    doctorId: 1,
     infoUserId: infoUser4.id
   });
   await user4.addRoles([role1]);
@@ -346,6 +354,7 @@ module.exports = {
   TypeQuestion,
   Question,
   Role,
+  Doctor,
   Answer,
   ExpiredToken,
   Post,

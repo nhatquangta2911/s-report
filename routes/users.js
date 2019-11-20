@@ -17,5 +17,6 @@ router.get("/special", auth(["admin"]), (req, res) => res.json("Works!"));
 router.post("/upload", authController.demoUpload);
 
 router.post("/submit", userController.answer_question);
+router.post("/doctor", userController.add_doctor);
 
 module.exports = router;

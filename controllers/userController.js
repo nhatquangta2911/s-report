@@ -3,7 +3,7 @@ const { logger } = require("../middlewares/logging");
 const Op = Sequelize.Op;
 const ErrorHelper = require("../helpers/ErrorHelper");
 const config = require("../config");
-const { User, InfoUser, Role, Answer } = require("../startup/db");
+const { User, InfoUser, Role, Answer, Doctor } = require("../startup/db");
 
 const show_all_user_info = async (req, res) => {
   try {
@@ -38,6 +38,9 @@ const show_all_users = async (req, res) => {
       include: [
         {
           model: InfoUser
+        },
+        {
+          model: Doctor
         },
         {
           model: Role,
@@ -75,7 +78,26 @@ const answer_question = async (req, res) => {
   }
 };
 
+const add_doctor = async (req, res) => {
+  try {
+    const userId = req.headers["id"];
+    let user = await User.findOne({ where: { id: userId } });
+    if (!user) return ErrorHelper.BadRequest(res, "User not found.");
+    const result = await User.update(
+      {
+        ...user,
+        doctorId: req.body.doctorId
+      },
+      { where: { id: userId } }
+    );
+    res.json(result);
+  } catch (error) {
+    ErrorHelper.InternalServerError(res, error);
+  }
+};
+
 module.exports = {
+  add_doctor,
   show_all_user_info,
   show_all_users,
   find_User,

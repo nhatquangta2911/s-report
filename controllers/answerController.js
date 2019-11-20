@@ -32,6 +32,7 @@ const show_my_answers = async (req, res) => {
       ]
     });
     res.json({
+      total: answers.length,
       answers
     });
   } catch (error) {
