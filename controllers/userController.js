@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const { logger } = require("../middlewares/logging");
 const Op = Sequelize.Op;
+const bcrypt = require("bcrypt");
 const ErrorHelper = require("../helpers/ErrorHelper");
 const config = require("../config");
 const { User, InfoUser, Role, Answer, Doctor } = require("../startup/db");
@@ -96,8 +97,29 @@ const add_doctor = async (req, res) => {
   }
 };
 
+const add_password_for_admin = async (req, res) => {
+  try {
+    const userId = req.headers["id"];
+    let user = await User.findOne({ where: { id: userId } });
+    if (!user) return ErrorHelper.BadRequest(res, "User not found.");
+    const salt = await bcrypt.genSalt(10);
+    const password = await bcrypt.hash(req.body.password, salt);
+    const result = await User.update(
+      {
+        ...user,
+        password
+      },
+      { where: { id: userId } }
+    );
+    res.json(result);
+  } catch (error) {
+    ErrorHelper.InternalServerError(res, error);
+  }
+};
+
 module.exports = {
   add_doctor,
+  add_password_for_admin,
   show_all_user_info,
   show_all_users,
   find_User,

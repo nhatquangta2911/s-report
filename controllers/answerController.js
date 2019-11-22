@@ -28,7 +28,12 @@ const show_my_answers = async (req, res) => {
             id: req.params.id
           }
         },
-        Ingredient
+        {
+          model: Ingredient,
+          through: {
+            attributes: []
+          }
+        }
       ]
     });
     res.json({

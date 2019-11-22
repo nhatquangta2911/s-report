@@ -18,5 +18,6 @@ router.post("/upload", authController.demoUpload);
 
 router.post("/submit", userController.answer_question);
 router.post("/doctor", userController.add_doctor);
+router.post("/password", userController.add_password_for_admin);
 
 module.exports = router;

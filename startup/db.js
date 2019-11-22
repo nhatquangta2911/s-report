@@ -127,11 +127,6 @@ const applyDummy = async () => {
     level: 2,
     name: "negative"
   });
-  //TODO: FAKE TOKENS
-  let expiredToken = await ExpiredToken.create({
-    token:
-      "i983u289329rh982f8923h9f8h2398ewkjhfiueiunsdkjncjsdkncjksdhfhwerh23y4892y3498y2384y23"
-  });
   //TODO: FAKE ROLES
   let role1 = await Role.create({
     name: "admin"
@@ -256,7 +251,8 @@ const applyDummy = async () => {
     email: "shawn@enclave.vn",
     phone: "0368080534",
     infoUserId: infoUser1.id,
-    doctorId: 2
+    doctorId: 2,
+    password: "123456"
   });
   await user1.addRoles([role1]);
   await user1.addAnswers([answer2]);
@@ -265,18 +261,21 @@ const applyDummy = async () => {
     email: "ben@enclave.vn",
     phone: "0776402587",
     doctorId: 1,
-    infoUserId: infoUser2.id
+    infoUserId: infoUser2.id,
+    password: "123456"
   });
   let user3 = await User.create({
     email: "lionel@enclave.vn",
     phone: "01234445544",
-    infoUserId: infoUser3.id
+    infoUserId: infoUser3.id,
+    password: "123456"
   });
   let user4 = await User.create({
     email: "arthur@enclave.vn",
     phone: "01298877772",
     doctorId: 1,
-    infoUserId: infoUser4.id
+    infoUserId: infoUser4.id,
+    password: "123456"
   });
   await user4.addRoles([role1]);
   let user5 = await User.create({

@@ -1,6 +1,7 @@
 const { User, Role, ExpiredToken, InfoUser } = require("../startup/db");
 const ErrorHelper = require("../helpers/ErrorHelper");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const fileUpload = require("express-fileupload");
 const config = require("../config");
 const { logger } = require("../middlewares/logging");
@@ -72,9 +73,15 @@ const login = async (req, res) => {
         }
       ]
     });
+    const validPassword = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!validPassword)
+      return ErrorHelper.BadRequest(res, "Invalid email or password.");
     if (!user) user = await User.create(req.body);
     const token = jwt.sign(user.toJSON(), config.TOKEN_SECRET_KEY, {
-      expiresIn: 500
+      expiresIn: 18000
     });
     const refreshToken = jwt.sign(
       user.toJSON(),
