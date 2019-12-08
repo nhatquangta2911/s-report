@@ -151,102 +151,102 @@ const applyDummy = async () => {
     name: "Text"
   });
   //TODO: FAKE INGREDIENTS
-  let ingredient1 = await Ingredient.create({
-    name: "Banana",
-    cal: 110,
-    carbs: 27,
-    protein: 1.37,
-    fiber: 13.1,
-    sugar: 3.23,
-    fat: 0.19,
-    questionId: 2
-  });
-  let ingredient2 = await Ingredient.create({
-    name: "Apple",
-    cal: 145,
-    carbs: 17.6,
-    protein: 0.97,
-    fiber: 23.1,
-    sugar: 5.23,
-    fat: 0.09,
-    questionId: 2
-  });
-  let ingredient3 = await Ingredient.create({
-    name: "Avocado",
-    cal: 145,
-    carbs: 17.6,
-    protein: 0.97,
-    fiber: 23.1,
-    sugar: 5.23,
-    fat: 0.09
-  });
-  let ingredient4 = await Ingredient.create({
-    name: "Eggs",
-    cal: 145,
-    carbs: 17.6,
-    protein: 0.97,
-    fiber: 23.1,
-    sugar: 5.23,
-    fat: 0.09
-  });
+  // let ingredient1 = await Ingredient.create({
+  //   name: "Banana",
+  //   cal: 110,
+  //   carbs: 27,
+  //   protein: 1.37,
+  //   fiber: 13.1,
+  //   sugar: 3.23,
+  //   fat: 0.19,
+  //   questionId: 2
+  // });
+  // let ingredient2 = await Ingredient.create({
+  //   name: "Apple",
+  //   cal: 145,
+  //   carbs: 17.6,
+  //   protein: 0.97,
+  //   fiber: 23.1,
+  //   sugar: 5.23,
+  //   fat: 0.09,
+  //   questionId: 2
+  // });
+  // let ingredient3 = await Ingredient.create({
+  //   name: "Avocado",
+  //   cal: 145,
+  //   carbs: 17.6,
+  //   protein: 0.97,
+  //   fiber: 23.1,
+  //   sugar: 5.23,
+  //   fat: 0.09
+  // });
+  // let ingredient4 = await Ingredient.create({
+  //   name: "Eggs",
+  //   cal: 145,
+  //   carbs: 17.6,
+  //   protein: 0.97,
+  //   fiber: 23.1,
+  //   sugar: 5.23,
+  //   fat: 0.09
+  // });
   //TODO: FAKE USER INFO
-  let infoUser1 = await InfoUser.create({
-    weight: 57,
-    height: 169,
-    gender: "Female",
-    bodyFat: 2,
-    goal: 2,
-    activityLevel: 3,
-    dietType: 1
-  });
-  let infoUser2 = await InfoUser.create({
-    weight: 88,
-    height: 175,
-    gender: "Male",
-    bodyFat: 3,
-    goal: 1,
-    activityLevel: 1,
-    dietType: 1
-  });
-  let infoUser3 = await InfoUser.create({
-    weight: 48,
-    height: 155,
-    gender: "Male",
-    bodyFat: 2,
-    goal: 1,
-    activityLevel: 3,
-    dietType: 1
-  });
-  let infoUser4 = await InfoUser.create({
-    weight: 68,
-    height: 173,
-    gender: "Female",
-    bodyFat: 2,
-    goal: 2,
-    activityLevel: 3,
-    dietType: 2
-  });
-  let infoUser5 = await InfoUser.create({
-    weight: 108,
-    height: 185,
-    gender: "Male",
-    bodyFat: 3,
-    goal: 1,
-    activityLevel: 1,
-    dietType: 1
-  });
+  // let infoUser1 = await InfoUser.create({
+  //   weight: 57,
+  //   height: 169,
+  //   gender: "Female",
+  //   bodyFat: 2,
+  //   goal: 2,
+  //   activityLevel: 3,
+  //   dietType: 1
+  // });
+  // let infoUser2 = await InfoUser.create({
+  //   weight: 88,
+  //   height: 175,
+  //   gender: "Male",
+  //   bodyFat: 3,
+  //   goal: 1,
+  //   activityLevel: 1,
+  //   dietType: 1
+  // });
+  // let infoUser3 = await InfoUser.create({
+  //   weight: 48,
+  //   height: 155,
+  //   gender: "Male",
+  //   bodyFat: 2,
+  //   goal: 1,
+  //   activityLevel: 3,
+  //   dietType: 1
+  // });
+  // let infoUser4 = await InfoUser.create({
+  //   weight: 68,
+  //   height: 173,
+  //   gender: "Female",
+  //   bodyFat: 2,
+  //   goal: 2,
+  //   activityLevel: 3,
+  //   dietType: 2
+  // });
+  // let infoUser5 = await InfoUser.create({
+  //   weight: 108,
+  //   height: 185,
+  //   gender: "Male",
+  //   bodyFat: 3,
+  //   goal: 1,
+  //   activityLevel: 1,
+  //   dietType: 1
+  // });
   //TODO: FAKE ANSWERS
-  let answer1 = await Answer.create({
-    answerContent: "stuff",
-    positiveLevelId: negative.id
-  });
-  answer1.addIngredients([ingredient1.id, ingredient2.id, ingredient4.id]);
-  let answer2 = await Answer.create({
-    answerContent: "anything",
-    positiveLevelId: positive.id
-  });
-  answer2.addIngredients([ingredient2.id]);
-  //TODO: FAKE USERS
+  // let answer1 = await Answer.create({
+  //   answerContent: "stuff",
+  //   positiveLevelId: negative.id
+  // });
+  // answer1.addIngredients([ingredient1.id, ingredient2.id, ingredient4.id]);
+  // let answer2 = await Answer.create({
+  //   answerContent: "anything",
+  //   positiveLevelId: positive.id
+  // });
+  // answer2.addIngredients([ingredient2.id]);
+  // //TODO: FAKE USERS
   let user1 = await User.create({
     email: "shawn@enclave.vn",
     phone: "0368080534",

@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 
 module.exports = {
   PORT: process.env.PORT,
@@ -12,5 +12,7 @@ module.exports = {
   TOKEN_LIFE: process.env.TOKEN_LIFE,
   REFRESH_TOKEN_LIFE: process.env.REFRESH_TOKEN_LIFE,
   S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
-  S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY
+  S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
+  MAILER_USER: process.env.MAILER_USER,
+  MAILER_PASSWORD: process.env.MAILER_PASSWORD
 };

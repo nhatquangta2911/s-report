@@ -7,5 +7,10 @@ module.exports = {
       dates[i] = dates[i].toISOString().substring(0, 10);
     }
     return dates;
+  },
+  generateToday() {
+    var today = new Date();
+    let result = new Date(today.getTime());
+    return result.toISOString().substring(0, 10);
   }
 };

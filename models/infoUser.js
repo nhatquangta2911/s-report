@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-  return sequelize.define('infoUser', {
+  return sequelize.define("infoUser", {
     id: {
       type: type.INTEGER,
       primaryKey: true,
@@ -14,7 +14,7 @@ module.exports = (sequelize, type) => {
       allowNull: true
     },
     gender: {
-      type: type.ENUM('Male', 'Female'),
+      type: type.ENUM("Male", "Female"),
       allowNull: true
     },
     bodyFat: {
@@ -31,6 +31,10 @@ module.exports = (sequelize, type) => {
     },
     dietType: {
       type: type.INTEGER,
+      allowNull: true
+    },
+    job: {
+      type: type.STRING,
       allowNull: true
     }
   });
