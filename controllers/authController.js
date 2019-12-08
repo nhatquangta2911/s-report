@@ -1,7 +1,7 @@
 const { User, Role, ExpiredToken, InfoUser } = require("../startup/db");
 const ErrorHelper = require("../helpers/ErrorHelper");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const fileUpload = require("express-fileupload");
 const config = require("../config");
 const { logger } = require("../middlewares/logging");

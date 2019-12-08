@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const { logger } = require("../middlewares/logging");
 const Op = Sequelize.Op;
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const ErrorHelper = require("../helpers/ErrorHelper");
 const config = require("../config");
 const { User, InfoUser, Role, Answer, Doctor } = require("../startup/db");
