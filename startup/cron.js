@@ -15,10 +15,11 @@ let transporter = nodemailer.createTransport({
 });
 
 //TODO: 1. second 2. minute 3. hour 4.day of month 5. month 6. day of week
-cron.schedule("00 00 */1 * * 0-6", async () => {
+cron.schedule("00 */1 * * * 0-6", async () => {
   let users = await User.findAll({
     include: [Doctor]
   });
+  console.log(users);
   const userList = users.map(u => u.dataValues);
   userList.forEach(async user => {
     const dailyReport = await Answer.findAll({
@@ -69,7 +70,7 @@ cron.schedule("00 00 */1 * * 0-6", async () => {
 
     let mailOptions = {
       from: config.MAILER_USER,
-      to: user.doctor.dataValues.email,
+      to: (user.doctor && user.doctor.dataValues.email) || "shawn@enclave.vn",
       subject: `[Daily Report] ${generateToday()} | ${user.name}`,
       text:
         typeof dailyRender === "string"
