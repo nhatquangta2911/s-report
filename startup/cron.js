@@ -15,7 +15,7 @@ let transporter = nodemailer.createTransport({
 });
 
 //TODO: 1. second 2. minute 3. hour 4.day of month 5. month 6. day of week
-cron.schedule("00 00 01 * * 0-6", async () => {
+cron.schedule("00 00 */1 * * 0-6", async () => {
   let users = await User.findAll({
     include: [Doctor]
   });
