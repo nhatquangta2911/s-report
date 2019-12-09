@@ -32,10 +32,6 @@ module.exports = (sequelize, type) => {
     dietType: {
       type: type.INTEGER,
       allowNull: true
-    },
-    job: {
-      type: type.STRING,
-      allowNull: true
     }
   });
 };
