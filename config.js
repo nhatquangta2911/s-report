@@ -14,5 +14,11 @@ module.exports = {
   S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
   S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
   MAILER_USER: process.env.MAILER_USER,
-  MAILER_PASSWORD: process.env.MAILER_PASSWORD
+  MAILER_PASSWORD: process.env.MAILER_PASSWORD,
+  FCM_KEY_PAIR: process.env.FCM_KEY_PAIR,
+  FCM_SERVER_KEY: process.env.FCM_SERVER_KEY,
+  FCM_TOKEN: process.env.FCM_TOKEN,
+  FCM_PROJECT_ID: process.env.FCM_PROJECT_ID,
+  FCM_CLIENT_EMAIL: process.env.FCM_CLIENT_EMAIL,
+  FCM_PRIVATE_KEY: process.env.FCM_PRIVATE_KEY.replace(/\\n/g, "\n")
 };

@@ -8,6 +8,9 @@ lerna-debug.log*
 combined.log
 error.log
 
+pushnotif-33754-firebase-adminsdk-aul9z-60f82f9f3d.json
+
+
 # dotenv environment variables file
 .env
 .env.test
