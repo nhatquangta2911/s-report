@@ -28,7 +28,7 @@ var notification = {
     "https://icons-for-free.com/iconfiles/png/512/bottle+drink+drop+glass+resolutions+water+icon-1320084094734677285.png"
 };
 
-cron.schedule("*/20 * * * * *", async () => {
+cron.schedule("*/50 * * * * *", async () => {
   try {
     const result = await axios("https://fcm.googleapis.com/fcm/send", {
       method: "POST",

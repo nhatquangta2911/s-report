@@ -5,6 +5,21 @@ const ErrorHelper = require("../helpers/ErrorHelper");
 const config = require("../config");
 const { Question, Ingredient, TypeQuestion, User } = require("../startup/db");
 
+const get_daily_questions = async (req, res) => {
+  try {
+    let questions = await Question.findAll({
+      order: [[Sequelize.literal("RAND()")]],
+      limit: 3
+    });
+    if (!questions || questions.length === 0)
+      return ErrorHelper.BadRequest(res, "No Questions Found.");
+    res.json({ questions, total: questions.length });
+  } catch (error) {
+    logger.error(error.message, error);
+    ErrorHelper.InternalServerError(res, error);
+  }
+};
+
 const show_my_questions = async (req, res) => {
   try {
     let questions = await Question.findAll({
@@ -18,7 +33,7 @@ const show_my_questions = async (req, res) => {
     });
     if (questions.length === 0)
       return ErrorHelper.BadRequest(res, "User Not Found.");
-    res.json(questions);
+    res.json({ questions, total: questions.length });
   } catch (error) {
     logger.error(error.message, error);
     ErrorHelper.InternalServerError(res, error);
@@ -48,5 +63,6 @@ const add_question = async (req, res) => {
 
 module.exports = {
   show_my_questions,
-  add_question
+  add_question,
+  get_daily_questions
 };

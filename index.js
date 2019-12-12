@@ -9,7 +9,7 @@ require("./startup/routes")(app);
 require("./startup/prod")(app);
 require("./startup/cron");
 
-const port = config.PORT || 5000;
+const port = config.PORT || 80;
 
 const server = app.listen(port, () => {
   logger.info(`SERVER STARTED AT PORT ${port}...`);
