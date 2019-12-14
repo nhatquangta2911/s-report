@@ -41,7 +41,21 @@ cron.schedule("*/5 * * * * *", async () => {
       },
       data: JSON.stringify({
         notification: notification,
-        to: to
+        to: to,
+        data: {
+          isYesNoVisible: false,
+          isSingleVisible: false,
+          isMultiVisible: false,
+          isDropVisible: true,
+          title: "500ml",
+          question: "Did you drink 500ml this morning?",
+          choices: [
+            {
+              id: 7,
+              name: "Water"
+            }
+          ]
+        }
       })
     });
     console.log(result);
