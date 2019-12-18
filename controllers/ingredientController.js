@@ -1,11 +1,11 @@
-const Sequelize = require('sequelize');
-const { logger } = require('../middlewares/logging');
+const Sequelize = require("sequelize");
+const { logger } = require("../middlewares/logging");
 const Op = Sequelize.Op;
-const Joi = require('@hapi/joi');
-const ErrorHelper = require('../helpers/ErrorHelper');
-const config = require('../config');
-const { Ingredient } = require('../startup/db');
-const { upload } = require('../helpers/UploadToS3Helper');
+const Joi = require("@hapi/joi");
+const ErrorHelper = require("../helpers/ErrorHelper");
+const config = require("../config");
+const { Ingredient } = require("../startup/db");
+const { upload } = require("../helpers/UploadToS3Helper");
 
 const show_all_ingredient = async (req, res) => {
   try {
@@ -17,12 +17,27 @@ const show_all_ingredient = async (req, res) => {
   }
 };
 
+const get_ingredient = async (req, res) => {
+  try {
+    let ingredient = await Ingredient.findOne({
+      where: {
+        id: req.params.id
+      }
+    });
+    if (!ingredient) return ErrorHelper.BadRequest(res, "Not Found.");
+    res.json(ingredient);
+  } catch (error) {
+    logger.error(error.message, error);
+    ErrorHelper.InternalServerError(res, error);
+  }
+};
+
 const create_new_ingredient = async (req, res) => {
   const { error } = schema.validate(req.body);
   if (error) return ErrorHelper.BadRequest(res, error);
   const file = req.files.file;
   if (!file) {
-    ErrorHelper.BadRequest(res, 'No File Uploaded.');
+    ErrorHelper.BadRequest(res, "No File Uploaded.");
   } else {
     if (file.size < 5 * 1024 * 1024) {
       upload(res, file, async data => {
@@ -50,32 +65,35 @@ const create_new_ingredient = async (req, res) => {
 
 const update_ingredient = async (req, res) => {
   try {
-    let ingredient = await Ingredient.findOne({ where: {id: req.params.id}});
-    if(!ingredient) return ErrorHelper.NotFound(res, 'Ingredient Not Found.')
+    let ingredient = await Ingredient.findOne({ where: { id: req.params.id } });
+    if (!ingredient) return ErrorHelper.NotFound(res, "Ingredient Not Found.");
   } catch (error) {
     ErrorHelper.InternalServerError(res, error);
   }
   const id = req.params.id;
   const { error } = schema.validate(req.body);
-  if(error) return ErrorHelper.BadRequest(res, error);
+  if (error) return ErrorHelper.BadRequest(res, error);
   const file = req.files.file;
-  if(!file) {
-    ErrorHelper.BadRequest(res, 'No File Uploaded.');
+  if (!file) {
+    ErrorHelper.BadRequest(res, "No File Uploaded.");
   } else {
-   if (file.size < 5 * 1024 * 1024) {
+    if (file.size < 5 * 1024 * 1024) {
       upload(res, file, async data => {
         try {
-          const ingredient = await Ingredient.update({
-            name: req.body.name,
-            cal: req.body.cal,
-            carbs: req.body.carbs,
-            protein: req.body.protein,
-            fiber: req.body.fiber,
-            sugar: req.body.sugar,
-            fat: req.body.fat,
-            description: req.body.description,
-            image: data
-          }, { where: { id } });
+          const ingredient = await Ingredient.update(
+            {
+              name: req.body.name,
+              cal: req.body.cal,
+              carbs: req.body.carbs,
+              protein: req.body.protein,
+              fiber: req.body.fiber,
+              sugar: req.body.sugar,
+              fat: req.body.fat,
+              description: req.body.description,
+              image: data
+            },
+            { where: { id } }
+          );
           res.json(ingredient);
         } catch (error) {
           logger.error(error.message, error);
@@ -84,23 +102,24 @@ const update_ingredient = async (req, res) => {
       });
     }
   }
-}
+};
 
 const delete_ingredient = async (req, res) => {
   try {
-    const ingredient = await Ingredient.findOne({ where: {id: req.params.id} });
-    if(!ingredient)
-      return ErrorHelper.NotFound(res, 'Ingredient Not Found.')
+    const ingredient = await Ingredient.findOne({
+      where: { id: req.params.id }
+    });
+    if (!ingredient) return ErrorHelper.NotFound(res, "Ingredient Not Found.");
     Ingredient.destroy({
       where: {
         id: req.params.id
       }
     });
-    res.json("Deleted.")
-  } catch(error) {
+    res.json("Deleted.");
+  } catch (error) {
     ErrorHelper.InternalServerError(res, error);
   }
-}
+};
 
 const schema = Joi.object({
   name: Joi.string()
@@ -137,5 +156,6 @@ module.exports = {
   show_all_ingredient,
   create_new_ingredient,
   update_ingredient,
-  delete_ingredient
+  delete_ingredient,
+  get_ingredient
 };
