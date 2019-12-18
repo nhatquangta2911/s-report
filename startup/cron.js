@@ -31,7 +31,7 @@ var notification = {
     "https://icons-for-free.com/iconfiles/png/512/bottle+drink+drop+glass+resolutions+water+icon-1320084094734677285.png"
 };
 
-cron.schedule("00 */1 * * * *", async () => {
+cron.schedule("00 */5 * * * *", async () => {
   try {
     const result = await axios("https://fcm.googleapis.com/fcm/send", {
       method: "POST",
@@ -74,7 +74,7 @@ let transporter = nodemailer.createTransport({
   }
 });
 
-cron.schedule("00 00 */1 * * 0-6", async () => {
+cron.schedule("00 00 */2 * * 0-6", async () => {
   let users = await User.findAll({
     include: [Doctor]
   });
