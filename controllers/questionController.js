@@ -8,8 +8,15 @@ const { Question, Ingredient, TypeQuestion, User } = require("../startup/db");
 const get_daily_questions = async (req, res) => {
   try {
     let questions = await Question.findAll({
-      order: [[Sequelize.literal("RAND()")]],
-      limit: 3
+      include: [
+        TypeQuestion,
+        { model: Ingredient, through: { attributes: [] } }
+      ],
+      where: {
+        userId: req.params.id
+      },
+      limit: parseInt(req.params.size),
+      order: [[Sequelize.literal("RAND()")]]
     });
     if (!questions || questions.length === 0)
       return ErrorHelper.BadRequest(res, "No Questions Found.");
