@@ -22,11 +22,12 @@ admin.initializeApp({
 });
 
 const key = config.FCM_SERVER_KEY;
-const to = config.FCM_TOKEN;
+const to =
+  "d26GeGjlE24:APA91bHZAjO2Ni23mxQ_It6OvemULTruPY1Xy1fCGnJiGj2PNOFmuilKDQolIp0qQVnr6uBKb8kAJejag3YXANYkX1cOG86UshdL-idfm6rckuY1sfr4JJI8rzcmmwdbiEfCZy4J-ru3";
 
 var notification = {
-  title: "Sucks",
-  body: "Sucks balls",
+  title: "Take your time answer this question",
+  body: "Did you eat any of these this morning?",
   icon:
     "https://icons-for-free.com/iconfiles/png/512/bottle+drink+drop+glass+resolutions+water+icon-1320084094734677285.png"
 };
@@ -43,18 +44,14 @@ cron.schedule("00 */5 * * * *", async () => {
         notification: notification,
         to: to,
         data: {
+          isNotificationVisible: true,
           isYesNoVisible: false,
           isSingleVisible: false,
-          isMultiVisible: false,
-          isDropVisible: true,
-          title: "500ml",
-          question: "Did you drink 500ml this morning?",
-          choices: [
-            {
-              id: 7,
-              name: "Water"
-            }
-          ]
+          isMultiVisible: true,
+          isDropVisible: false,
+          title: "It's your time, buddy!",
+          question: "Did you eat any of these this morning?",
+          choices: "23,24,25"
         }
       })
     });
