@@ -1,29 +1,30 @@
-const Sequelize = require("sequelize");
-const config = require("../config.js");
-const { logger } = require("../middlewares/logging");
+const Sequelize = require('sequelize');
+const config = require('../config.js');
+const { logger } = require('../middlewares/logging');
 
-const UserModel = require("../models/user");
-const InfoUserModel = require("../models/infoUser");
-const IngredientModel = require("../models/ingredient");
-const TypeQuestionModel = require("../models/typeQuestion");
-const QuestionModel = require("../models/question");
-const RoleModel = require("../models/role");
-const ExpiredTokenModel = require("../models/expiredToken");
-const positiveLevelModel = require("../models/positiveLevel");
-const answerModel = require("../models/answer");
-const postModel = require("../models/post");
-const commentModel = require("../models/comment");
-const doctorModel = require("../models/doctor");
+const UserModel = require('../models/user');
+const TokenModel = require('../models/expiredToken');
+const InfoUserModel = require('../models/infoUser');
+const IngredientModel = require('../models/ingredient');
+const TypeQuestionModel = require('../models/typeQuestion');
+const QuestionModel = require('../models/question');
+const RoleModel = require('../models/role');
+const ExpiredTokenModel = require('../models/expiredToken');
+const positiveLevelModel = require('../models/positiveLevel');
+const answerModel = require('../models/answer');
+const postModel = require('../models/post');
+const commentModel = require('../models/comment');
+const doctorModel = require('../models/doctor');
 
 var dbConfig = {
   username: config.USER,
   password: config.PASSWORD,
   database: config.DATABASE,
   host: config.HOST,
-  dialect: "mysql",
+  dialect: 'mysql',
   define: {
-    charset: "utf8mb4",
-    collate: "utf8mb4_unicode_520_ci",
+    charset: 'utf8mb4',
+    collate: 'utf8mb4_unicode_520_ci',
     timestamps: false
   }
 };
@@ -37,10 +38,10 @@ const db = new Sequelize(
 
 db.authenticate()
   .then(() => {
-    console.log("Connection has been established successfully.");
+    console.log('Connection has been established successfully.');
   })
   .catch(err => {
-    console.error("Unable to connect to the database:", err);
+    console.error('Unable to connect to the database:', err);
   });
 
 const User = UserModel(db, Sequelize);
@@ -50,18 +51,18 @@ const Doctor = doctorModel(db, Sequelize);
 const Ingredient = IngredientModel(db, Sequelize);
 const TypeQuestion = TypeQuestionModel(db, Sequelize);
 const Question = QuestionModel(db, Sequelize);
-const UserRole = db.define("user_role", {}, { timestamps: false });
+const UserRole = db.define('user_role', {}, { timestamps: false });
 const ExpiredToken = ExpiredTokenModel(db, Sequelize);
 const PositiveLevel = positiveLevelModel(db, Sequelize);
 const Answer = answerModel(db, Sequelize);
-const UserAnswers = db.define("user_answers", {}, { timestamps: false });
+const UserAnswers = db.define('user_answers', {}, { timestamps: false });
 const QuestionIngredients = db.define(
-  "question_ingredients",
+  'question_ingredients',
   {},
   { timestamps: false }
 );
 const AnswerIngredients = db.define(
-  "answer_ingredients",
+  'answer_ingredients',
   {},
   { timestamps: false }
 );
@@ -111,7 +112,7 @@ const beDummyData = false;
 db.sync({
   force: beDummyData
 }).then(() => {
-  logger.info("[SYNCED] DATABASE & TABLES CREATED ");
+  logger.info('[SYNCED] DATABASE & TABLES CREATED ');
   if (beDummyData) {
     applyDummy();
   }
@@ -121,34 +122,34 @@ const applyDummy = async () => {
   //TODO: FAKE POSITIVE LEVELS
   let positive = await PositiveLevel.create({
     level: 1,
-    name: "positive"
+    name: 'positive'
   });
   let negative = await PositiveLevel.create({
     level: 2,
-    name: "negative"
+    name: 'negative'
   });
   //TODO: FAKE ROLES
   let role1 = await Role.create({
-    name: "admin"
+    name: 'admin'
   });
   let role2 = await Role.create({
-    name: "user"
+    name: 'user'
   });
   // TODO: FAKE TYPE QUESTIONS
   let typeQuestion1 = await TypeQuestion.create({
-    name: "Yes/No"
+    name: 'Yes/No'
   });
   let typeQuestion2 = await TypeQuestion.create({
-    name: "Single-choice"
+    name: 'Single-choice'
   });
   let typeQuestion3 = await TypeQuestion.create({
-    name: "Multi-choice"
+    name: 'Multi-choice'
   });
   let typeQuestion4 = await TypeQuestion.create({
-    name: "Dropdown List"
+    name: 'Dropdown List'
   });
   let typeQuestion5 = await TypeQuestion.create({
-    name: "Text"
+    name: 'Text'
   });
   //TODO: FAKE INGREDIENTS
   // let ingredient1 = await Ingredient.create({
@@ -248,65 +249,65 @@ const applyDummy = async () => {
   // answer2.addIngredients([ingredient2.id]);
   // //TODO: FAKE USERS
   let user1 = await User.create({
-    email: "shawn@enclave.vn",
-    phone: "0368080534",
+    email: 'shawn@enclave.vn',
+    phone: '0368080534',
     infoUserId: infoUser1.id,
     doctorId: 2,
-    password: "123456"
+    password: '123456'
   });
   await user1.addRoles([role1]);
   await user1.addAnswers([answer2]);
   await user1.addAnswers([answer1]);
   let user2 = await User.create({
-    email: "ben@enclave.vn",
-    phone: "0776402587",
+    email: 'ben@enclave.vn',
+    phone: '0776402587',
     doctorId: 1,
     infoUserId: infoUser2.id,
-    password: "123456"
+    password: '123456'
   });
   let user3 = await User.create({
-    email: "lionel@enclave.vn",
-    phone: "01234445544",
+    email: 'lionel@enclave.vn',
+    phone: '01234445544',
     infoUserId: infoUser3.id,
-    password: "123456"
+    password: '123456'
   });
   let user4 = await User.create({
-    email: "arthur@enclave.vn",
-    phone: "01298877772",
+    email: 'arthur@enclave.vn',
+    phone: '01298877772',
     doctorId: 1,
     infoUserId: infoUser4.id,
-    password: "123456"
+    password: '123456'
   });
   await user4.addRoles([role1]);
   let user5 = await User.create({
-    email: "kendis@enclave.vn",
-    phone: "0904988982",
+    email: 'kendis@enclave.vn',
+    phone: '0904988982',
     infoUserId: infoUser5.id
   });
   //TODO: FAKE POSTS
   let post1 = await Post.create({
-    header: "Bored to death",
-    content: "How to get over all of it",
+    header: 'Bored to death',
+    content: 'How to get over all of it',
     userId: user2.id
   });
   let post2 = await Post.create({
-    header: "How to be more proactive",
-    content: "Not brave enough? This post come to rescue",
+    header: 'How to be more proactive',
+    content: 'Not brave enough? This post come to rescue',
     userId: user5.id
   });
   //TODO: FAKE COMMENTS
   let comment1 = await Comment.create({
-    content: "Interesting",
+    content: 'Interesting',
     userId: user4.id,
     postId: post1.id
   });
   let comment2 = await Comment.create({
-    content: "Tedious",
+    content: 'Tedious',
     userId: user3.id,
     postId: post2.id
   });
   let comment3 = await Comment.create({
-    content: "Show off!",
+    content: 'Show off!',
     userId: user1.id,
     postId: post2.id
   });
@@ -315,21 +316,21 @@ const applyDummy = async () => {
     typeQuestionId: typeQuestion1.id,
     userId: user1.id,
     amount: 2,
-    extraInfo: "Update soon..."
+    extraInfo: 'Update soon...'
   });
   await question1.addIngredients([ingredient4]);
   let question2 = await Question.create({
     typeQuestionId: typeQuestion2.id,
     userId: user1.id,
     amount: 2,
-    extraInfo: "Update soon..."
+    extraInfo: 'Update soon...'
   });
   await question2.addIngredients([ingredient1, ingredient2, ingredient4]);
   let question3 = await Question.create({
     typeQuestionId: typeQuestion3.id,
     userId: user1.id,
     amount: 3,
-    extraInfo: "Update soon..."
+    extraInfo: 'Update soon...'
   });
   await question3.addIngredients([
     ingredient1,
@@ -341,7 +342,7 @@ const applyDummy = async () => {
     typeQuestionId: typeQuestion4.id,
     userId: user1.id,
     amount: 2,
-    extraInfo: "Update soon..."
+    extraInfo: 'Update soon...'
   });
   await question4.addIngredients([ingredient3, ingredient2]);
 };
