@@ -15,7 +15,7 @@ const register = async (req, res) => {
       }
     });
     if (isExist) {
-      res.status(201).json({ id: isExist.id });
+      res.status(201).json({ id: isExist.id, status: isExist.status });
     } else {
       let user = await User.create(req.body);
       res.json(user);
