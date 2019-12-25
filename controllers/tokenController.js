@@ -22,12 +22,14 @@ const add_token = async (req, res) => {
         token: req.body.token
       }
     });
-    if (isTokenExist)
-      ErrorHelper.BadRequest(res, "Token has already been registered.");
-    let token = await ExpiredToken.create({
-      token: req.body.token
-    });
-    res.json(token);
+    if (isTokenExist) {
+      res.status(204).json("Token has already been registered.");
+    } else {
+      let token = await ExpiredToken.create({
+        token: req.body.token
+      });
+      res.json(token);
+    }
   } catch (error) {
     logger.error(error.message, error);
     ErrorHelper.InternalServerError(res, error);

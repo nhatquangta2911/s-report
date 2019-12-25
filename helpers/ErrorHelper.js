@@ -1,5 +1,5 @@
-const httpStatus = require('http-status');
-const createError = require('http-errors');
+const httpStatus = require("http-status");
+const createError = require("http-errors");
 
 const response = (statusCode, responseClient, responseServer) => {
   return {
@@ -17,6 +17,17 @@ const ResponseMessage = {
         response(
           httpStatus.BAD_REQUEST,
           createError(httpStatus.BAD_REQUEST),
+          serverError
+        )
+      );
+  },
+  NoContent: (res, serverError) => {
+    res
+      .status(httpStatus.NO_CONTENT)
+      .json(
+        response(
+          httpStatus.NO_CONTENT,
+          createError(httpStatus.NO_CONTENT),
           serverError
         )
       );
