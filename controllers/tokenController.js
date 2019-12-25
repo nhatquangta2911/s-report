@@ -1,9 +1,9 @@
-const Sequelize = require('sequelize');
-const { logger } = require('../middlewares/logging');
+const Sequelize = require("sequelize");
+const { logger } = require("../middlewares/logging");
 const Op = Sequelize.Op;
-const ErrorHelper = require('../helpers/ErrorHelper');
-const config = require('../config');
-const { ExpiredToken } = require('../startup/db');
+const ErrorHelper = require("../helpers/ErrorHelper");
+const config = require("../config");
+const { ExpiredToken } = require("../startup/db");
 
 const show_all_tokens = async (req, res) => {
   try {
@@ -17,6 +17,13 @@ const show_all_tokens = async (req, res) => {
 
 const add_token = async (req, res) => {
   try {
+    const isTokenExist = await ExpiredToken.findOne({
+      where: {
+        token: req.body.token
+      }
+    });
+    if (isTokenExist)
+      ErrorHelper.BadRequest(res, "Token has already been registered.");
     let token = await ExpiredToken.create({
       token: req.body.token
     });
